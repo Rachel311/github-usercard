@@ -4,6 +4,17 @@
     https://api.github.com/users/<your name>
 */
 
+  import axios from 'axios'
+  
+  const entryDiv = document.querySelector('.cards')
+
+  axios.get("https://api.github.com/users/Rachel311")
+    .then(futureData => {console.log(futureData)
+      entryDiv.append(userData(futureData.data))
+  })
+    .catch(drama => {console.log("oops!")
+  })
+
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
     github info! You will need to understand the structure of this
@@ -28,7 +39,15 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = [];
+const followersArray = ['https://api.github.com/users/tetondan', 'https://api.github.com/users/dustinmyers', 'https://api.github.com/users/justsml', 'https://api.github.com/users/luishrd', 'https://api.github.com/users/bigknell'];
+followersArray.forEach((userData) => {
+    axios.get("https://api.github.com/users/Rachel311")  
+      .then((res) => {
+          entryDiv.append(cardMaker(res.data))  })
+      .catch((err) => {    
+        console.log(err);  });});
+
+
 
 /*
   STEP 3: Create a function that accepts a single object as its only argument.
@@ -49,6 +68,41 @@ const followersArray = [];
       </div>
     </div>
 */
+  function userData(data){
+    let div = document.createElement('div');
+    let image = document.createElement('img');
+    let div2 = document.createElement('card-info');
+    let h3 = document.createElement('h3');
+    let username = document.createElement('p');
+    let location = document.createElement('p');
+    let profile = document.createElement('p');
+    let profileLink = document.createElement('a');
+    let followers = document.createElement('p');
+    let following = document.createElement('p');
+    let bio = document.createElement('p');
+
+
+    div.appendChild(image);
+    div.appendChild(div2);
+    div2.appendChild(h3, username, location, profile, followers, following, bio);
+    profile.appendChild(profileLink);
+
+
+    image.src = data.avatar_url;
+    h3.textContent = data.login;
+    username.textContent = data.name;
+    location.textContent = data.location;
+    profile.textContent = "profile: ";
+    profileLink.textContent = "GitHub link";
+    profileLink.href = data.html_url;
+    followers.textContent = data.followers;
+    following.textContent = data.following;
+    bio.textContent = data.bio;
+
+
+    return div
+
+  }
 
 /*
   List of LS Instructors Github username's:

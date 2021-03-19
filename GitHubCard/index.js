@@ -39,14 +39,16 @@
     user, and adding that card to the DOM.
 */
 
-const followersArray = ['https://api.github.com/users/tetondan', 'https://api.github.com/users/dustinmyers', 'https://api.github.com/users/justsml', 'https://api.github.com/users/luishrd', 'https://api.github.com/users/bigknell'];
-followersArray.forEach((userData) => {
-    axios.get("https://api.github.com/users/Rachel311")  
+const followersArray = ['tetondan', 'dustinmyers', 'justsml', 'luishrd', 'bigknell'];
+followersArray.forEach((object) => {
+    axios.get(`https://api.github.com/users/${object}`)  
       .then((res) => {
-          entryDiv.append(cardMaker(res.data))  })
+        const users = res.data
+          entryDiv.append(userData(users)) 
+         })
       .catch((err) => {    
-        console.log(err);  });});
-
+        console.log(err);  });
+      })
 
 
 /*
@@ -82,22 +84,33 @@ followersArray.forEach((userData) => {
     let bio = document.createElement('p');
 
 
+    div.classList.add('card');
+    div2.classList.add('card-info');
+    h3.classList.add('name');
+
+
     div.appendChild(image);
     div.appendChild(div2);
-    div2.appendChild(h3, username, location, profile, followers, following, bio);
+    div2.appendChild(h3);
+    div2.appendChild(username);
+    div2.appendChild(location);
+    div2.appendChild(profile);
+    div2.appendChild(followers);
+    div2.appendChild(following);
+    div2.appendChild(bio);
     profile.appendChild(profileLink);
 
 
     image.src = data.avatar_url;
     h3.textContent = data.login;
     username.textContent = data.name;
-    location.textContent = data.location;
+    location.textContent = `location: ${data.location}`;
     profile.textContent = "profile: ";
     profileLink.textContent = "GitHub link";
     profileLink.href = data.html_url;
-    followers.textContent = data.followers;
-    following.textContent = data.following;
-    bio.textContent = data.bio;
+    followers.textContent = `followers: ${data.followers}`;
+    following.textContent = `following: ${data.following}`;
+    bio.textContent = `Bio: ${data.bio}`;
 
 
     return div
